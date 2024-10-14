@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Entry and Winners List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input[type="text"], input[type="button"] {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #winnersList {
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: inline-block;
+            text-align: left;
+        }
+        .winner {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Enter Your Team Name and Members' Initials</h1>
+    <p>Only enter team initials, no full names.</p>
+
+    <form id="teamForm">
+        <input type="text" id="teamName" placeholder="Team Name" required>
+        <input type="text" id="membersInitials" placeholder="Members' Initials (comma separated)" required>
+        <input type="button" value="Submit" onclick="submitTeam()">
+    </form>
+
+    <div id="message"></div>
+
+    <h2>Previous Winners</h2>
+    <div id="winnersList"></div>
+
+    <script>
+        // Function to load previous winners from localStorage
+        function loadWinners() {
+            const winnersListDiv = document.getElementById('winnersList');
+            const winners = JSON.parse(localStorage.getItem('winners')) || [];
+
+            // Clear previous list
+            winnersListDiv.innerHTML = '';
+
+            // Display each winner
+            winners.forEach((winner, index) => {
+                const winnerDiv = document.createElement('div');
+                winnerDiv.classList.add('winner');
+                winnerDiv.innerHTML = `<strong>Team:</strong> ${winner.teamName} <br> <strong>Members:</strong> ${winner.membersInitials}`;
+                winnersListDiv.appendChild(winnerDiv);
+            });
+        }
+
+        // Function to submit the team and save to localStorage
+        function submitTeam() {
+            const teamName = document.getElementById('teamName').value;
+            const membersInitials = document.getElementById('membersInitials').value;
+            const messageDiv = document.getElementById('message');
+
+            // Basic validation to check if team name and initials are provided
+            if (teamName.trim() === '' || membersInitials.trim() === '') {
+                messageDiv.innerHTML = '<span style="color: red;">Please enter both team name and members initials.</span>';
+                return;
+            }
+
+            // Store the team info in localStorage
+            const winners = JSON.parse(localStorage.getItem('winners')) || [];
+            winners.push({ teamName: teamName, membersInitials: membersInitials });
+            localStorage.setItem('winners', JSON.stringify(winners));
+
+            // Show success message and reload the list
+            messageDiv.innerHTML = '<span style="color: green;">Team successfully added!</span>';
+            loadWinners();
+
+            // Clear the form
+            document.getElementById('teamForm').reset();
+        }
+
+        // Load previous winners on page load
+        window.onload = function() {
+            loadWinners();
+        };
+    </script>
+
+</body>
+</html>
