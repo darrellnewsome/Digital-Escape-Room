@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Enter the Code</h1>
+    <p>Please enter the correct code to proceed to the next stage:</p>
+
+    <input type="text" id="codeInput" placeholder="Enter code">
+    <button onclick="checkCode()">Submit</button>
+
+    <div id="errorMessage" class="error"></div>
+
+    <script>
+        function checkCode() {
+            // The correct code
+            const correctCode = "17384";
+            // Get the value entered by the user
+            const enteredCode = document.getElementById("codeInput").value;
+
+            // Check if the entered code matches the correct code
+            if (enteredCode === correctCode) {
+                // If the code is correct, redirect to the desired URL
+                window.location.href = "https://sites.google.com/pikeville.kyschools.us/digitaldetectivestheonlineadve/hackathon";
+            } else {
+                // If the code is incorrect, show an error message
+                document.getElementById("errorMessage").textContent = "Incorrect code. Please try again.";
+            }
+        }
+    </script>
+
+</body>
+</html>
